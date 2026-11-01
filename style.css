@@ -1,0 +1,165 @@
+:root {
+    --bg-dark: #070a12;
+    --panel-dark: #101625;
+    --card-bg: #182238;
+    --accent-blue: #38bdf8;
+    --danger-red: #f43f5e;
+    --success-green: #10b981;
+    --warning-yellow: #f59e0b;
+    --text-bright: #f8fafc;
+    --text-dim: #94a3b8;
+    --border-color: #243452;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-bright);
+}
+
+.dim-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: #000;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: opacity 0.4s ease;
+}
+
+.dim-overlay.active { opacity: 1; }
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--panel-dark);
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 15px;
+}
+
+.brand h1 { margin: 5px 0 0 0; font-size: 1.4rem; color: var(--accent-blue); }
+.badge { background: var(--accent-blue); color: #000; padding: 2px 8px; font-weight: bold; font-size: 0.75rem; border-radius: 4px; }
+
+.btn {
+    background: var(--card-bg);
+    color: var(--text-bright);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn:hover { background: #22304e; }
+.btn.active { background: var(--accent-blue); color: #000; }
+.danger-btn { background: var(--danger-red); border: none; }
+.secondary-btn { background: #334155; margin-top: 15px; }
+
+.workspace { flex: 1; display: flex; margin-bottom: 15px; }
+
+.view-panel {
+    display: none;
+    width: 100%;
+    background: var(--panel-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.view-panel.active-view { display: block; }
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.panel-header h2 { margin: 0; font-size: 1.2rem; color: var(--accent-blue); }
+.status-indicator { font-size: 0.9rem; color: var(--warning-yellow); font-weight: bold; }
+
+.dossier-card {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--accent-blue);
+}
+
+.dossier-grid p { margin: 4px 0; font-size: 0.9rem; }
+
+.evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.item-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.item-card:hover { transform: translateY(-3px); border-color: var(--accent-blue); }
+.item-card.bagged { border-color: var(--success-green); opacity: 0.7; }
+.puzzle-card { border-color: var(--warning-yellow); }
+
+.item-icon { font-size: 2.2rem; }
+.bag-status { display: inline-block; margin-top: 8px; font-size: 0.8rem; color: var(--accent-blue); }
+
+.lab-workspace { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+.lab-evidence-list, .lab-testing-station { background: var(--card-bg); padding: 15px; border-radius: 8px; }
+
+.bagged-item-btn {
+    width: 100%; text-align: left; margin-bottom: 8px; padding: 10px;
+    background: var(--panel-dark); border: 1px solid var(--border-color);
+    color: var(--text-bright); border-radius: 6px; cursor: pointer;
+}
+
+.terminal-footer { background: #000; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; }
+.terminal-header { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 5px; }
+.terminal-body { font-family: monospace; color: var(--success-green); font-size: 0.85rem; height: 80px; overflow-y: auto; }
+
+.modal {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 10000;
+}
+
+.modal-content {
+    background: var(--panel-dark); border: 1px solid var(--border-color);
+    padding: 25px; border-radius: 12px; width: 90%; max-width: 500px; text-align: center;
+}
+
+.suspect-card {
+    background: var(--card-bg); padding: 12px; border-radius: 6px;
+    margin-bottom: 10px; cursor: pointer; border: 1px solid var(--border-color); text-align: left;
+}
+
+.suspect-card:hover { border-color: var(--danger-red); }
+
+@media (max-width: 768px) {
+    .lab-workspace { grid-template-columns: 1fr; }
+    .app-header { flex-direction: column; gap: 10px; }
+}

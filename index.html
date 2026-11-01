@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forensic Mystery: Case #104</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Lights Dimming & Horror Flickering Overlay -->
+    <div id="lightsOverlay" class="dim-overlay"></div>
+
+    <div class="game-container">
+        <!-- Top Control Bar -->
+        <header class="app-header">
+            <div class="brand">
+                <span class="badge">CASE #104</span>
+                <h1>THE VELVET LOUNGE POISONING</h1>
+            </div>
+            <div class="nav-controls">
+                <button class="btn nav-btn active" id="btnCrimeScene" onclick="switchLocation('scene')">🏢 Crime Scene</button>
+                <button class="btn nav-btn" id="btnLab" onclick="switchLocation('lab')">🧪 Forensic Lab</button>
+                <button class="btn danger-btn" onclick="toggleAccuseModal()">🚨 Accuse Suspect</button>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <div class="workspace">
+            
+            <!-- CRIME SCENE VIEW -->
+            <div id="crimeSceneView" class="view-panel active-view">
+                <div class="panel-header">
+                    <h2>LOCATION: PRIVATE VIP SUITE 4B</h2>
+                    <span class="status-indicator" id="timerDisplay">⏱️ TIME REMAINING: 15:00</span>
+                </div>
+                
+                <!-- Victim & Scene Summary -->
+                <div class="dossier-card">
+                    <h3>Victim Dossier</h3>
+                    <div class="dossier-grid">
+                        <p><strong>Name:</strong> Lord Reginald Vance</p>
+                        <p><strong>Age:</strong> 54</p>
+                        <p><strong>Profession:</strong> High-End Art Dealer</p>
+                        <p><strong>Estimated TOD:</strong> 23:15 PST</p>
+                    </div>
+                </div>
+
+                <!-- Room Micro-Inspection & Hidden Objects -->
+                <div class="interactive-area">
+                    <h3>Crime Scene Hotspots (Click to Inspect / Search)</h3>
+                    <p class="help-text">Search hidden areas around the room to find evidence, diary logs, and locks.</p>
+                    
+                    <div class="evidence-grid">
+                        <div class="item-card" id="item-glass" onclick="bagEvidence('glass', 'Crystal Whiskey Glass', 'Found near victim hand. Contains amber liquid and white residue.')">
+                            <span class="item-icon">🥃</span>
+                            <h4>Crystal Glass</h4>
+                            <span class="bag-status" id="status-glass">Click to Bag</span>
+                        </div>
+
+                        <div class="item-card" id="item-lipstick" onclick="bagEvidence('lipstick', 'Silk Napkin', 'Found in trash bin. Smudged red makeup traces.')">
+                            <span class="item-icon">💋</span>
+                            <h4>Silk Napkin</h4>
+                            <span class="bag-status" id="status-lipstick">Click to Bag</span>
+                        </div>
+
+                        <div class="item-card" id="item-watch" onclick="bagEvidence('watch', 'Gold Pocket Watch', 'Scratched watch stopped at 11:12 PM. Hair caught in clasp.')">
+                            <span class="item-icon">⌚</span>
+                            <h4>Pocket Watch</h4>
+                            <span class="bag-status" id="status-watch">Click to Bag</span>
+                        </div>
+
+                        <!-- Mini-Puzzle Safe Box -->
+                        <div class="item-card puzzle-card" id="item-safe" onclick="openCipherPuzzle()">
+                            <span class="item-icon">🔒</span>
+                            <h4>Locked Safe Box</h4>
+                            <span class="bag-status" id="status-safe">4-Digit Keypad</span>
+                        </div>
+
+                        <!-- Secret Diary Hotspot -->
+                        <div class="item-card" id="item-diary" onclick="readDiaryLog()">
+                            <span class="item-icon">📜</span>
+                            <h4>Victim's Secret Diary</h4>
+                            <span class="bag-status">Read Notes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORENSIC LAB VIEW -->
+            <div id="labView" class="view-panel">
+                <div class="panel-header">
+                    <h2>FORENSIC ANALYSIS LAB</h2>
+                    <span class="status-indicator">LAB EQUIPMENT: ACTIVE</span>
+                </div>
+
+                <div class="lab-workspace">
+                    <div class="lab-evidence-list">
+                        <h3>Collected Evidence</h3>
+                        <div id="baggedItemsContainer">
+                            <p class="empty-msg">No evidence bagged yet. Search the Crime Scene!</p>
+                        </div>
+                    </div>
+
+                    <div class="lab-testing-station">
+                        <h3>Analysis Suite</h3>
+                        <div id="activeTestingArea">
+                            <p class="select-prompt">Select an evidence item from the left to run lab tests.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Investigation Log -->
+        <footer class="terminal-footer">
+            <div class="terminal-header">INVESTIGATION TERMINAL & AUDIO LOGS</div>
+            <div class="terminal-body" id="terminalLog">
+                [SYSTEM]: Escape Engine Ready.<br>
+                [SCENE]: Investigating VIP Suite 4B. Timer started.
+            </div>
+        </footer>
+    </div>
+
+    <!-- CIPHER MINI-PUZZLE MODAL -->
+    <div id="cipherModal" class="modal">
+        <div class="modal-content">
+            <h2>UNLOCK SAFE BOX</h2>
+            <p>Clue found under victim's desk: <em>"The time the watch stopped is the pin code."</em></p>
+            <input type="text" id="cipherInput" maxlength="4" placeholder="Enter 4-Digit Code" style="padding: 10px; width: 80%; font-size: 1.2rem; text-align: center; margin: 15px 0;">
+            <div>
+                <button class="btn" onclick="submitCipher()">Submit Code</button>
+                <button class="btn secondary-btn" onclick="closeCipherModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACCUSATION MODAL -->
+    <div id="accuseModal" class="modal">
+        <div class="modal-content">
+            <h2>ACCUSE SUSPECT</h2>
+            <p>Select the prime suspect based on lab testing proof:</p>
+            
+            <div class="suspects-list">
+                <div class="suspect-card" onclick="makeAccusation('Lady Eleanor Vance', false)">
+                    <h4>Lady Eleanor Vance (Wife)</h4>
+                    <p>Wears red lipstick. Claimed she left the room at 10:30 PM.</p>
+                </div>
+                <div class="suspect-card" onclick="makeAccusation('Julian Croft', true)">
+                    <h4>Julian Croft (Business Partner)</h4>
+                    <p>Has wrist scratches. Access to chemical cyanide poisons.</p>
+                </div>
+                <div class="suspect-card" onclick="makeAccusation('Marcus', false)">
+                    <h4>Marcus (Personal Valet)</h4>
+                    <p>Poured the drinks. Has master key access.</p>
+                </div>
+            </div>
+            
+            <button class="btn secondary-btn" onclick="toggleAccuseModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
